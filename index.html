@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,8 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap');
-
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             font-family: 'Roboto', sans-serif;
@@ -17,7 +18,7 @@
             overflow-x: hidden;
             background-color: black;
         }
-
+        
         .bg {
             height: 100vh;
             background-image: url('https://www.solarsystemscope.com/textures/download/8k_stars.jpg');
@@ -27,7 +28,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         .navbar {
             background-color: rgba(0, 0, 0, 0.7);
             position: sticky;
@@ -35,34 +36,55 @@
             width: 100%;
             z-index: 1000;
         }
-
+        
         .navbar-nav .nav-link {
             color: white !important;
             transition: color 0.3s;
         }
-
+        
         .navbar-nav .nav-link:hover {
             color: #ffdd57 !important;
         }
-
+        
         .spaceship {
             position: absolute;
             font-size: 2em;
             color: white;
             animation: float 20s linear infinite;
         }
-
+        
         @keyframes float {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-100vh); }
-            100% { transform: translateY(0); }
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-100vh);
+            }
+            100% {
+                transform: translateY(0);
+            }
         }
-
-        .spaceship:nth-child(1) { left: 20%; animation-duration: 15s; }
-        .spaceship:nth-child(2) { left: 40%; animation-duration: 18s; }
-        .spaceship:nth-child(3) { left: 60%; animation-duration: 22s; }
-        .spaceship:nth-child(4) { left: 80%; animation-duration: 25s; }
-
+        
+        .spaceship:nth-child(1) {
+            left: 20%;
+            animation-duration: 15s;
+        }
+        
+        .spaceship:nth-child(2) {
+            left: 40%;
+            animation-duration: 18s;
+        }
+        
+        .spaceship:nth-child(3) {
+            left: 60%;
+            animation-duration: 22s;
+        }
+        
+        .spaceship:nth-child(4) {
+            left: 80%;
+            animation-duration: 25s;
+        }
+        
         .content {
             position: absolute;
             bottom: 0;
@@ -72,7 +94,7 @@
             text-align: center;
             overflow: hidden;
         }
-
+        
         .crawl {
             position: absolute;
             bottom: 0;
@@ -83,7 +105,7 @@
             animation: crawl 60s linear infinite;
             font-size: 1.5em;
         }
-
+        
         @keyframes crawl {
             from {
                 bottom: -100%;
@@ -94,80 +116,90 @@
                 transform: rotateX(25deg) translateZ(-2000px);
             }
         }
-
+        
         .crawl h1 {
             font-size: 3em;
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: #ffdd57;
+            color: #4d09eb;
         }
-
+        
         .crawl p {
             font-size: 2em;
             color: #ffdd57;
             margin: 20px 0;
         }
-
-        .contact-info, .social-icons {
+        
+        .contact-info,
+        .social-icons {
             font-size: 1.2em;
             margin-top: 20px;
         }
-
-        .contact-info a, .social-icons a {
+        
+        .contact-info a,
+        .social-icons a {
             color: #ffdd57;
             text-decoration: none;
             transition: color 0.3s;
         }
-
-        .contact-info a:hover, .social-icons a:hover {
+        
+        .contact-info a:hover,
+        .social-icons a:hover {
             color: #fff;
         }
-
+        
         section {
             padding: 100px 0;
             text-align: center;
         }
-
-        .about, .skills, .projects, .contact {
+        
+        .about,
+        .skills,
+        .projects,
+        .contact {
             background-color: #111;
         }
-
-        .about h2, .skills h2, .projects h2, .contact h2 {
+        
+        .about h2,
+        .skills h2,
+        .projects h2,
+        .contact h2 {
             font-family: 'Orbitron', sans-serif;
             text-transform: uppercase;
             letter-spacing: 2px;
             color: #ffdd57;
         }
-
+        
         .skills ul {
             list-style-type: none;
             padding: 0;
         }
-
+        
         .skills ul li {
             font-size: 1.5em;
             margin: 10px 0;
         }
-
+        
         .projects img {
             width: 100%;
             max-width: 400px;
             margin: 20px 0;
         }
-
+        
         .footer {
             background-color: rgba(0, 0, 0, 0.7);
             padding: 10px 0;
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
         }
-
+        
         .footer p {
             margin: 0;
         }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <a class="navbar-brand" href="#">Nelson Mutakula</a>
@@ -217,9 +249,10 @@
     <section id="about" class="about">
         <div class="container">
             <h2>About Me</h2>
-            <p>Welcome! I'm Nelson Mutakula, a passionate web developer with expertise in modern web technologies.</p>
-        </div>
+            <p>Welcome! I'm Nelson Mutakula, a highly motivated and skilled computer scientists with a strong background in computer studies. Experienced in data analysis, data extraction, and data entry. Proven ability to provide excellent customer service.
+                Always looking for a suitable role that will enhance my personal career growth as well as the betterment of the organization as a whole.
     </section>
+
 
     <section id="skills" class="skills">
         <div class="container">
@@ -234,19 +267,7 @@
         </div>
     </section>
 
-    <section id="projects" class="projects">
-        <div class="container">
-            <h2>Projects</h2>
-            <div>
-                <img src="https://via.placeholder.com/400" alt="Project 1">
-                <p>Project 1 Description</p>
-            </div>
-            <div>
-                <img src="https://via.placeholder.com/400" alt="Project 2">
-                <p>Project 2 Description</p>
-            </div>
-        </div>
-    </section>
+
 
     <section id="contact" class="contact">
         <div class="container">
@@ -274,5 +295,5 @@
         });
     </script>
 </body>
-</html>
 
+</html>
