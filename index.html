@@ -1,297 +1,183 @@
+<?php
+session_start();
+
+// Database connection configuration
+$servername = "localhost";
+$username = "your_username";
+$password = "your_password";
+$dbname = "bnantubox";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$error = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = md5($_POST['password']); // Hashing the password
+
+    $query = "SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $result = mysqli_query($conn, $query);
+
+    if ($result && mysqli_num_rows($result) == 1) {
+        $_SESSION['login_user'] = $username;
+        header("location: dashboard.php"); // Redirect to user dashboard
+    } else {
+        $error = "Your Login Name or Password is invalid";
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nelson Mutakula Portfolio</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <title>BnantuBox</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;700&display=swap');
-        body,
-        html {
-            height: 100%;
+        body {
             margin: 0;
-            font-family: 'Roboto', sans-serif;
-            color: white;
-            overflow-x: hidden;
-            background-color: black;
-        }
-        
-        .bg {
-            height: 100vh;
-            background-image: url('https://www.solarsystemscope.com/textures/download/8k_stars.jpg');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.7);
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-        
-        .navbar-nav .nav-link {
-            color: white !important;
-            transition: color 0.3s;
-        }
-        
-        .navbar-nav .nav-link:hover {
-            color: #ffdd57 !important;
-        }
-        
-        .spaceship {
-            position: absolute;
-            font-size: 2em;
-            color: white;
-            animation: float 20s linear infinite;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-100vh);
-            }
-            100% {
-                transform: translateY(0);
-            }
-        }
-        
-        .spaceship:nth-child(1) {
-            left: 20%;
-            animation-duration: 15s;
-        }
-        
-        .spaceship:nth-child(2) {
-            left: 40%;
-            animation-duration: 18s;
-        }
-        
-        .spaceship:nth-child(3) {
-            left: 60%;
-            animation-duration: 22s;
-        }
-        
-        .spaceship:nth-child(4) {
-            left: 80%;
-            animation-duration: 25s;
-        }
-        
-        .content {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100%;
-            perspective: 400px;
-            text-align: center;
-            overflow: hidden;
-        }
-        
-        .crawl {
-            position: absolute;
-            bottom: 0;
-            width: 80%;
-            left: 10%;
-            transform-origin: 50% 100%;
-            transform: rotateX(25deg);
-            animation: crawl 60s linear infinite;
-            font-size: 1.5em;
-        }
-        
-        @keyframes crawl {
-            from {
-                bottom: -100%;
-                transform: rotateX(25deg) translateZ(0);
-            }
-            to {
-                bottom: 100%;
-                transform: rotateX(25deg) translateZ(-2000px);
-            }
-        }
-        
-        .crawl h1 {
-            font-size: 3em;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #4d09eb;
-        }
-        
-        .crawl p {
-            font-size: 2em;
-            color: #ffdd57;
-            margin: 20px 0;
-        }
-        
-        .contact-info,
-        .social-icons {
-            font-size: 1.2em;
-            margin-top: 20px;
-        }
-        
-        .contact-info a,
-        .social-icons a {
-            color: #ffdd57;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .contact-info a:hover,
-        .social-icons a:hover {
+            font-family: Arial, sans-serif;
+            background-color: #000;
             color: #fff;
         }
-        
-        section {
-            padding: 100px 0;
-            text-align: center;
-        }
-        
-        .about,
-        .skills,
-        .projects,
-        .contact {
-            background-color: #111;
-        }
-        
-        .about h2,
-        .skills h2,
-        .projects h2,
-        .contact h2 {
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #ffdd57;
-        }
-        
-        .skills ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        .skills ul li {
-            font-size: 1.5em;
-            margin: 10px 0;
-        }
-        
-        .projects img {
-            width: 100%;
-            max-width: 400px;
-            margin: 20px 0;
-        }
-        
-        .footer {
-            background-color: rgba(0, 0, 0, 0.7);
+
+        header {
+            background-color: #000;
             padding: 10px 0;
             text-align: center;
-            color: rgba(255, 255, 255, 0.7);
         }
-        
-        .footer p {
+
+        nav ul {
+            list-style: none;
+            padding: 0;
             margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: #ff6600;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #000;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        button {
+            background-color: #ff6600;
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #e65c00;
+        }
+
+        form {
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #222;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        form label, form input {
+            display: block;
+            margin: 10px 0;
+        }
+
+        form input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 3px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding: 10px;
+            }
+
+            form {
+                width: 100%;
+                padding: 10px;
+            }
         }
     </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="#">Nelson Mutakula</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">Pojects</a>
-                </li>
-                
-                <li class="nav-item">
-                    <a class="nav-link" href="#contact">Contact</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <div class="bg">
-        <div class="spaceship">PHP</div>
-        <div class="spaceship">HTML</div>
-        <div class="spaceship">CSS</div>
-        <div class="spaceship">PHP</div>
-        <div class="content">
-            <div class="crawl">
-                <h1>Nelson Mutakula</h1>
-                <p>Web Developer</p>
-                <p>I am an expert in creating stunning, responsive websites using the latest web technologies. My skills in HTML, CSS, JavaScript, and various web development frameworks ensure that your website will be both functional and visually appealing.</p>
-                <div class="contact-info">
-                    <p>Phone: 0976858421</p>
-                    <p>Email: <a href="mailto:nelsonmutakula99@gmail.com">nelsonmutakula99@gmail.com</a></p>
-                </div>
-                <div class="social-icons">
-                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
-                    <a href="https://github.com" target="_blank"><i class="fab fa-github fa-2x"></i></a>
-                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <section id="about" class="about">
-        <div class="container">
-            <h2>About Me</h2>
-            <p>Welcome! I'm Nelson Mutakula, a highly motivated and skilled computer scientists with a strong background in computer studies. Experienced in data analysis, data extraction, and data entry. Proven ability to provide excellent customer service.
-                Always looking for a suitable role that will enhance my personal career growth as well as the betterment of the organization as a whole.
-    </section>
-
-
-    <section id="skills" class="skills">
-        <div class="container">
-            <h2>Skills</h2>
-            <ul>
-                <li>HTML & CSS</li>
-                <li>JavaScript</li>
-                <li>PHP</li>
-                <li>React & Vue.js</li>
-                <li>Node.js & Express</li>
-            </ul>
-        </div>
-    </section>
-
-
-
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2>Contact</h2>
-            <p>If you'd like to get in touch, please don't hesitate to contact me via email or phone.</p>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <p>&copy; 2024 Nelson Mutakula</p>
-    </footer>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Smooth scrolling
-            $('a[href*="#"]').on('click', function(e) {
-                e.preventDefault();
-                $('html, body').animate({
-                    scrollTop: $($(this).attr('href')).offset().top
-                }, 500, 'linear');
-            });
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("BnantuBox script loaded.");
         });
     </script>
-</body>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">Series</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="logo">
+            <img src="logo.jpg" alt="BnantuBox Logo" width="200"> <!-- Replace with your logo -->
+        </div>
+        <h1>Welcome to BnantuBox</h1>
+        <p>Your favorite streaming platform!</p>
 
+        <form method="POST" action="">
+            <label>Username:</label>
+            <input type="text" name="username" required>
+            <label>Password:</label>
+            <input type="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        
+        <?php
+        if (!empty($error)) {
+            echo '<p style="color: red;">' . $error . '</p>';
+        }
+        ?>
+    </main>
+    <footer>
+        <p>&copy; 2024 BnantuBox. All rights reserved.</p>
+    </footer>
+</body>
 </html>
